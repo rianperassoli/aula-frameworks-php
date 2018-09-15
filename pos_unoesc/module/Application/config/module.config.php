@@ -8,6 +8,8 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
+
+
             'home' => [
                 'type' => Literal::class,
                 'options' => [
@@ -19,25 +21,31 @@ return [
                 ],
             ],
             'usuario_perfil' => [
-                'type' => Literal::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/usuario',
+                    'route'    => '/usuario[/[:id]]',
+                    'constraints' => [
+                        'id' => '[0-9]+'
+                    ],
                     'defaults' => [
                         'controller' => Controller\UsuarioController::class,
-                        'action'     => 'index',
+                        'action'     => 'visualizar',
                     ],
                 ],
             ],
-            'perfil' => [
+            'usuario_cadastrar' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route'    => '/perfil',
+                    'route'    => '/usuario/cadastrar',
                     'defaults' => [
                         'controller' => Controller\UsuarioController::class,
-                        'action'     => 'index',
+                        'action'     => 'cadastrar',
                     ],
                 ],
             ],
+
+
+
         ],
     ],
     'controllers' => [

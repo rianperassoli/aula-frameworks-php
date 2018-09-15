@@ -1,16 +1,16 @@
 <?php
-namespace Application\Model
+namespace Application\Model;
 
-class Usuario {
+class Usuario
+{
+    public $id;
+    public $email;
+    public $senha;
 
-	public $id;
-	public $email;
-	public $senha;
-
-	public function exchangeArray(array $dados){
-		
-		$this->$id = isset($dados['id']) ? $dados['id'] : NULL;
-		$this->$email = $dados['email']);
-		$this->$senha = $dados['senha']);
-	}
+    public function exchangeArray(array $dados)
+    {
+        $this->id = isset($dados['id']) ? $dados['id'] : NULL;
+        $this->email = $dados['email'];
+        $this->senha = $dados['senha'];
+    }
 }

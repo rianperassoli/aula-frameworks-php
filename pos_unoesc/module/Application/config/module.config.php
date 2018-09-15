@@ -8,8 +8,6 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
-
-
             'home' => [
                 'type' => Literal::class,
                 'options' => [
@@ -17,19 +15,6 @@ return [
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index',
-                    ],
-                ],
-            ],
-            'usuario_perfil' => [
-                'type' => Segment::class,
-                'options' => [
-                    'route'    => '/usuario[/[:id]]',
-                    'constraints' => [
-                        'id' => '[0-9]+'
-                    ],
-                    'defaults' => [
-                        'controller' => Controller\UsuarioController::class,
-                        'action'     => 'visualizar',
                     ],
                 ],
             ],
@@ -43,15 +28,24 @@ return [
                     ],
                 ],
             ],
-
-
-
+            'usuario_perfil' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/usuario[/[:id]]',
+                    'constraints' => [
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'visualizar',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            Controller\UsuarioController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [

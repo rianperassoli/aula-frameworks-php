@@ -8,6 +8,10 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
+
+
+
+
             'home' => [
                 'type' => Literal::class,
                 'options' => [
@@ -41,6 +45,34 @@ return [
                     ],
                 ],
             ],
+            'usuario_excluir' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/usuario/excluir/:id',
+                    'constraints' => [
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'excluir',
+                    ],
+                ],
+            ],
+            'usuario_atualizar' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/usuario/atualizar/:id',
+                    'constraints' => [
+                        'id' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\UsuarioController::class,
+                        'action'     => 'atualizar',
+                    ],
+                ],
+            ],
+
+
         ],
     ],
     'controllers' => [

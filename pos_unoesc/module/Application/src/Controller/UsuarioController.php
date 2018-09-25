@@ -17,16 +17,22 @@ class UsuarioController extends AbstractActionController
 
     public function indexAction()
     {
-        return new ViewModel(['email' => 'galvao@galvao.eti.br']);
+        return new ViewModel(['email' => 'rian.perassoli@gmail.com']);
     }
 
     public function visualizarAction()
     {
         $id = $this->params()->fromRoute('id', 0);
 
-        return new ViewModel([
-            'id' => $id,
-        ]);
+        if ($id == 0) {
+            return new ViewModel([
+                'dados' => $this->table->listar()
+            ]);  
+        } else {
+            return new ViewModel([
+                'dados' => [$this->table->visualizar($id)]
+            ]); 
+        };
     }
 
     public function cadastrarAction()
@@ -46,6 +52,38 @@ class UsuarioController extends AbstractActionController
             'teste' =>  isset($dados['email']) ? $dados['email'] : '',
         ]);
     }
+
+    public function excluirAction()
+    {
+        $id = $this->params()->fromRoute('id',0);
+
+        $this->table->excluir($id);
+
+        return $this->redirect()->toRoute('usuario_perfil');
+    }
+
+    public function atualizarAction()
+    {
+        $req = $this->getRequest();
+        $id = $this->params()->fromRoute('id',0);
+        $form = new \Application\Form\UsuarioForm();
+
+        if ($req->isPost()) {
+            $dados = $req->getPost();
+            $form->setData($dados);
+            if (!$form->isValid()) {
+            }
+            $model = new \Application\Model\Usuario();
+            $model->exchangeArray($form->getData());
+            $this->table->atualizar($model);
+        } else {
+            $dados = $this->table->visualizar($id);
+            $form->bind($dados);
+        }
+
+        return new ViewModel(['form' => $form]);
+    }
+
 }
 
 

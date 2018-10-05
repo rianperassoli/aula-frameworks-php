@@ -24,13 +24,15 @@ class UsuarioController extends AbstractActionController
     {
         $id = $this->params()->fromRoute('id', 0);
 
+        $usuario = $this->table->buscarPorId($id);
+
         if ($id == 0) {
             return new ViewModel([
                 'dados' => $this->table->listar()
             ]);  
         } else {
             return new ViewModel([
-                'dados' => [$this->table->visualizar($id)]
+                'dados' => [$usuario]
             ]); 
         };
     }
@@ -48,16 +50,16 @@ class UsuarioController extends AbstractActionController
             $this->table->persistir($model);
         }
 
-        return new ViewModel([
-            'teste' =>  isset($dados['email']) ? $dados['email'] : '',
-        ]);
+        return $this->redirect()->toRoute('usuario_perfil');
     }
 
     public function excluirAction()
     {
         $id = $this->params()->fromRoute('id',0);
 
-        $this->table->excluir($id);
+        $usuario = $this->table->buscarPorId($id);
+
+        $this->table->excluir($usuario);
 
         return $this->redirect()->toRoute('usuario_perfil');
     }
@@ -70,18 +72,25 @@ class UsuarioController extends AbstractActionController
 
         if ($req->isPost()) {
             $dados = $req->getPost();
+
             $form->setData($dados);
-            if (!$form->isValid()) {
-            }
+
+            $form->isValid();
+
             $model = new \Application\Model\Usuario();
             $model->exchangeArray($form->getData());
+
             $this->table->atualizar($model);
+
+            return $this->redirect()->toRoute('usuario_perfil');
         } else {
-            $dados = $this->table->visualizar($id);
+            $dados = $this->table->buscarPorId($id);
             $form->bind($dados);
+
+            return new ViewModel(['form' => $form]);
         }
 
-        return new ViewModel(['form' => $form]);
+        
     }
 
 }

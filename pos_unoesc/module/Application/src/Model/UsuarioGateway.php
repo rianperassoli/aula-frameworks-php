@@ -3,21 +3,18 @@ namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGatewayInterface;
 
-class UsuarioGateway
-{
+class UsuarioGateway{
+
     private $tableGateway;
 
-    public function __construct(TableGatewayInterface $tableGateway)
-    {
+    public function __construct(TableGatewayInterface $tableGateway){
+
         $this->tableGateway = $tableGateway;
     }
 
-    public function persistir(Usuario $model)
-    {
-        $dados = [
-            'email' => $model->email,
-            'senha' => $model->senha,
-        ];
+    public function persistir(Usuario $model){
+
+		$dados = $model->getArrayCopy();
 
         $this->tableGateway->insert($dados);
     }
@@ -27,24 +24,21 @@ class UsuarioGateway
         return $this->tableGateway->select();
     }
 
-    public function visualizar($id){
+    public function buscarPorId($id){
 
         $resultados = $this->tableGateway->select(['id' => $id]);
 
         return $resultados->current();
     }
 
-    public function excluir($id){
+    public function excluir(Usuario $model){
 
-    	$this->tableGateway->delete(['id' => $id]);
+    	$this->tableGateway->delete(['id' => $model->id]);
     }
 
-    public function atualizar($model){
-		$dados = [
-			'id' => $model->id,
-            'email' => $model->email,
-            'senha' => $model->senha,
-        ];
+    public function atualizar(Usuario $model){
+		
+		$dados = $model->getArrayCopy();
 
     	$this->tableGateway->update($dados, ['id' => $model->id]);
     }

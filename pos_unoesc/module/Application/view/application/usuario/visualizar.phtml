@@ -1,6 +1,27 @@
 <?php
+
+printf('<table>
+  <tr>
+    <th>ID</th>
+    <th>Email</th> 
+    <th><button type="button" ><a href="/usuario/cadastrar" style="text-decoration:none"> Novo </a></button></th>
+  </tr>');
+
 foreach ($this->dados as $model) {
-	printf('<a href="/usuario/%d"> %d - %s</a> 
-		    <a href="/usuario/excluir/%d"> [ [Excluir] </a> 
-		    <a href="/usuario/atualizar/%d"> [Alterar] ] </a>  </br>' , $model->id, $model->id, $model->email, $model->id, $model->id);
+	printf('
+		<tr>
+    		<td>
+    			<a href="/usuario/%d">%d</a>
+    		</td>
+    		<td>
+    			<a href="/usuario/%d">%s</a> 
+    		</td> 
+    		<td>
+    			<button type="button" ><a href="/usuario/excluir/%d" style="text-decoration:none"> Excluir </a></button>
+				<button type="button" ><a href="/usuario/atualizar/%d" style="text-decoration:none"> Alterar </a></button>
+		    </td>
+		</tr>', 
+  		$model->id, $model->id, $model->id, $model->email, $model->id, $model->id);
 }
+
+printf('</table>');

@@ -10,8 +10,6 @@ return [
         'routes' => [
 
 
-
-
             'home' => [
                 'type' => Literal::class,
                 'options' => [

@@ -10,18 +10,18 @@ class UsuarioController extends AbstractActionController
 {
     private $table;
 
-    public function __construct($gateway)
-    {
+    public function __construct($gateway){
+
         $this->table = $gateway;
     }
 
-    public function indexAction()
-    {
+    public function indexAction(){
+
         return new ViewModel(['email' => 'rian.perassoli@gmail.com']);
     }
 
-    public function visualizarAction()
-    {
+    public function visualizarAction(){
+
         $id = $this->params()->fromRoute('id', 0);
 
         $usuario = $this->table->buscarPorId($id);
@@ -37,8 +37,7 @@ class UsuarioController extends AbstractActionController
         };
     }
 
-    public function cadastrarAction()
-    {
+    public function cadastrarAction(){
         $req = $this->getRequest();
 
         if ($req->isPost()) {
@@ -48,13 +47,13 @@ class UsuarioController extends AbstractActionController
             $model->exchangeArray(['email' => $dados['email'], 'senha' => $dados['senha']]);
 
             $this->table->persistir($model);
-        }
 
-        return $this->redirect()->toRoute('usuario_perfil');
+            return $this->redirect()->toRoute('usuario_perfil');
+        }        
     }
 
-    public function excluirAction()
-    {
+    public function excluirAction(){
+
         $id = $this->params()->fromRoute('id',0);
 
         $usuario = $this->table->buscarPorId($id);
@@ -64,8 +63,8 @@ class UsuarioController extends AbstractActionController
         return $this->redirect()->toRoute('usuario_perfil');
     }
 
-    public function atualizarAction()
-    {
+    public function atualizarAction(){
+
         $req = $this->getRequest();
         $id = $this->params()->fromRoute('id',0);
         $form = new \Application\Form\UsuarioForm();
@@ -89,8 +88,6 @@ class UsuarioController extends AbstractActionController
 
             return new ViewModel(['form' => $form]);
         }
-
-        
     }
 
 }
